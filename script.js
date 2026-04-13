@@ -42,3 +42,20 @@ if (edad >= 25 && edad <= 60 ){
 };
 
 edad >60 ? pension: false;
+
+//punto4//
+let calculoIbc =  ibc * ( salario + comisiones + totalhorasExtra);
+let auxilioTransporte = 0;
+if (salarioBasico <= (salarioMinimo * 2)) {
+    auxilioTransporte = 162000;
+     // Valor de referencia
+}
+let valorPension = calculoIbc * pension;
+if (fondoSolidaridad)
+    
+let valorSalud = calculoIbc * psalud;
+let fondoSolidaridad = 0;
+if (calculoIBC >= (salarioMinimo * 4)) {
+    fondoSolidaridad = calculoIBC * 0.01;
+}
+let arl = calculoIbc * (niveldeRiesgo / 100);
