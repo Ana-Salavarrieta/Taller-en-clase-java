@@ -51,7 +51,10 @@ if (salarioBasico <= (salarioMinimo * 2)) {
      // Valor de referencia
 }
 let valorPension = calculoIbc * pension;
-if (fondoSolidaridad)
+if (fondoSolidaridad) {
+    valorSalud = 162000;
+     // Valor de referencia
+}
     
 let valorSalud = calculoIbc * psalud;
 let fondoSolidaridad = 0;
@@ -59,3 +62,8 @@ if (calculoIBC >= (salarioMinimo * 4)) {
     fondoSolidaridad = calculoIBC * 0.01;
 }
 let arl = calculoIbc * (niveldeRiesgo / 100);
+
+function calcularPorcentaje(base*porcentaje) {
+    let calcuar = base porcentaje 
+    return = resultado
+    }
