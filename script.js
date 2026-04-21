@@ -63,7 +63,10 @@ if (calculoIBC >= (salarioMinimo * 4)) {
 }
 let arl = calculoIbc * (niveldeRiesgo / 100);
 
-function calcularPorcentaje(base*porcentaje) {
-    let calcuar = base porcentaje 
-    return = resultado
+function calcularPorcentaje (base,porcentaje) {
+    let calcuar = base * porcentaje 
+    return  resultado
     }
+    let calculoIBC = ingresoBaseCotizacion * ( salario + comisiones + totalhorasExtra);
+    let calculoSalud = calculoIbc * psalud; 
+    let calculoPension = calculoIbc * pension;
