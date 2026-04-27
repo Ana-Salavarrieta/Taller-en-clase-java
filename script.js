@@ -13,11 +13,23 @@ let comisiones = "";
 let totalhorasExtra = "";
 let niveldeRiesgo= "";
 
+//promts//
+nombreCompleto = prompt ("Ingrese su nombre completo");
+edad = parseInt (prompt ("Ingrese su edad"));
+tipodeDocumento = prompt (" Ingrese su tipo de documento");
+nùmerodeDocuemnto = parseInt (prompt(" Ingrese su nùmero de docuemento"));
+salario = parseInt (prompt("Ingrse su Salario"));
+comisiones = parseInt (prompt("Ingrese sus comisiones"));
+totalhorasExtra = parseInt (prompt("Ingrese el total de horas extra"));
+niveldeRiesgo = prompt("Ingrese su nivel de riesgo");
+
 //constantes//
 const salariominimolegalVigente = 1750905 ;
 const salariominimointegralVigente = 22761765;
 const subsidiodeTrasporte = 249095;
 const uvT = 52.37;
+const ingresobaseCotizacion= 0.70;
+
 const psalud = 0.04;
 const pension = 0.04;
 const riego1= 0.522;
@@ -25,7 +37,10 @@ const riego2= 1.044;
 const riego3= 2.436;
 const riego4= 4.350;
 const riego5= 6.960;
+
 const fondodesolidaridadPensonal=0.01;
+const porcentajePension=0.04;
+const porcentajeSalud=0.04;
 
 //if y else//
 
