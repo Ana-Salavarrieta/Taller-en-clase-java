@@ -1,44 +1,37 @@
-//Datos de usuario//
-//punto1//
-
+//datos//
 let nombreCompleto = "";
-let edad = "";
+let edad = 0;
 let tipodeDocumento = "";
-let nùmerodeDocumento = ""; 
+let numerodeDocumento = "";
 
-//punto3//
-
-let salario = "";
-let comisiones = "";
-let totalhorasExtra = "";
-let niveldeRiesgo= "";
-
+let comisiones = 0;
+let totalhorasExtra = 0;
+let niveldeRiesgo = 0;
 
 //formulario//
-const formsdatosGenerales= document.getElementById("datosGenerales");
+const formsdatosGenerales = document.getElementById("datosGenerales");
 
 //constantes//
-
-const salariominimolegalVigente = 1750905 ;
-const salariominimointegralVigente = 22761765;
+const salariominimolegalVigente = 1750905;
 const subsidiodeTrasporte = 249095;
 const uvT = 52.37;
+
 const psalud = 0.04;
 const pension = 0.04;
-const fondodesolidaridadPensonal=0.01;
+const fondoSolidaridadPorcentaje = 0.01;
 
 //riesgos//
+const riego1 = 0.522;
+const riego2 = 1.044;
+const riego3 = 2.436;
+const riego4 = 4.350;
+const riego5 = 6.960;
 
-const riego1= 0.522;
-const riego2= 1.044;
-const riego3= 2.436;
-const riego4= 4.350;
-const riego5= 6.960;
-
+//evento//
 formsdatosGenerales.addEventListener("submit", function (e) {
     e.preventDefault();
-    
-    //Capturar datos//
+
+    //captura//
     nombreCompleto = document.getElementById("nombre").value;
     edad = parseInt(document.getElementById("edad").value);
     tipodeDocumento = document.getElementById("tipoDocumento").value;
@@ -49,92 +42,75 @@ formsdatosGenerales.addEventListener("submit", function (e) {
     totalhorasExtra = parseFloat(document.getElementById("horasExtra").value) || 0;
     niveldeRiesgo = parseInt(document.getElementById("riesgo").value);
 
-    //tipo de documento//
-
+    //validacion doc//
     if (edad < 7 && tipodeDocumento !== "RC") {
-        alert("Para esta edad debe tener Registro Civil (RC)");
+        alert("Debe tener RC");
         return;
     }
 
     if (edad >= 7 && edad < 18 && tipodeDocumento !== "TI") {
-        alert("Para esta edad debe tener Tarjeta de Identidad (TI)");
+        alert("Debe tener TI");
         return;
     }
 
-    if (edad >= 18 && tipodeDocumento !== "CC" && tipodeDocumento !== "CE" && tipodeDocumento !== "PP") {
-        alert("Debe tener documento válido (CC, CE o PP)");
+    if (edad >= 18 && !["CC", "CE", "PP"].includes(tipodeDocumento)) {
+        alert("Documento inválido");
         return;
     }
 
-
-    //if y else//
-
-    if (edad < 18)  {
-        alert("Eres menor de edad. No puedes continuar.");
+    //validacion edad//
+    if (edad < 18) {
+        alert("Menor de edad");
         return;
     }
 
-    if (edad >= 18 && edad < 25 ){
-        alert("Eres beneficiario por cotizante. No puedes continuar.");
+    if (edad >= 18 && edad < 25) {
+        alert("Beneficiario");
         return;
     }
 
-    if (edad >= 60){
-        alert("Solo debes ingresar valor de la pension.");
+    if (edad >= 60) {
+        alert("Solo pensión");
         return;
     }
 
-    if (edad >= 25 && edad < 60 ){
-        //se calculan obligaciones//
-    }
-    // calculer retencion de fuente //
-
-    function calcularRetencionUVT(ingresoUVT) {
-    let retencionUVT = 0;
-
-    if (ingresoUVT <= 95) {
-        retencionUVT = 0;
-    } else if (ingresoUVT <= 150) {
-        retencionUVT = (ingresoUVT - 95) * 0.19;
-    } else if (ingresoUVT <= 360) {
-        retencionUVT = ((ingresoUVT - 150) * 0.28) + 10;
-    } else if (ingresoUVT <= 640) {
-        retencionUVT = ((ingresoUVT - 360) * 0.33) + 69;
-    } else if (ingresoUVT <= 945) {
-        retencionUVT = ((ingresoUVT - 640) * 0.35) + 162;
-    } else if (ingresoUVT <= 2300) {
-        retencionUVT = ((ingresoUVT - 945) * 0.37) + 268;
-    } else {
-        retencionUVT = ((ingresoUVT - 2300) * 0.39) + 770;
-    }
-
-    return retencionUVT;
-}
-
-//punto4//
-
+    //calculos//
     let calculoIbc = (salarioBasico + comisiones + totalhorasExtra) * 0.7;
 
+    //auxilio//
     let auxilioTransporte = 0;
     if (salarioBasico <= (salariominimolegalVigente * 2)) {
         auxilioTransporte = subsidiodeTrasporte;
     }
 
-    let valorPension = calculoIbc * pension;
+    //salud pension//
     let valorSalud = calculoIbc * psalud;
+    let valorPension = calculoIbc * pension;
 
+    //fondo//
     let fondoSolidaridad = 0;
-     if (calculoIbc >= (salariominimolegalVigente * 4)) {
-        valorPension += fondoSolidaridad;
+    if (calculoIbc >= (salariominimolegalVigente * 4)) {
+        fondoSolidaridad = calculoIbc * fondoSolidaridadPorcentaje;
     }
+
+    //retencion//
     let ingresosNoConstitutivos = valorSalud + valorPension;
     let ingresoGravado = calculoIbc - ingresosNoConstitutivos;
     let ingresoUVT = ingresoGravado / uvT;
 
-    let retencionUVT = 0;
+    function calcularRetencionUVT(ingresoUVT) {
+        if (ingresoUVT <= 95) return 0;
+        if (ingresoUVT <= 150) return (ingresoUVT - 95) * 0.19;
+        if (ingresoUVT <= 360) return ((ingresoUVT - 150) * 0.28) + 10;
+        if (ingresoUVT <= 640) return ((ingresoUVT - 360) * 0.33) + 69;
+        if (ingresoUVT <= 945) return ((ingresoUVT - 640) * 0.35) + 162;
+        if (ingresoUVT <= 2300) return ((ingresoUVT - 945) * 0.37) + 268;
+        return ((ingresoUVT - 2300) * 0.39) + 770;
+    }
 
-    //ARL//
+    let retencion = calcularRetencionUVT(ingresoUVT);
 
+    //arl//
     let porcentajeRiesgo = 0;
 
     switch (niveldeRiesgo) {
@@ -143,26 +119,20 @@ formsdatosGenerales.addEventListener("submit", function (e) {
         case 3: porcentajeRiesgo = riego3; break;
         case 4: porcentajeRiesgo = riego4; break;
         case 5: porcentajeRiesgo = riego5; break;
-         default:
-            alert("Nivel de riesgo inválido");
+        default:
+            alert("Riesgo inválido");
             return;
     }
 
     let arl = calculoIbc * (porcentajeRiesgo / 100);
 
-     //RESULTADOS//
-
-    console.log({
-        nombreCompleto,
-        edad,
-        tipodeDocumento,
-        numerodeDocumento,
-        calculoIbc,
-        auxilioTransporte,
-        valorSalud,
-        valorPension,
-        fondoSolidaridad,
-        arl
-    });
-
+    //resultados//
+    console.log("Nombre:", nombreCompleto);
+    console.log("IBC:", calculoIbc);
+    console.log("Auxilio:", auxilioTransporte);
+    console.log("Salud:", valorSalud);
+    console.log("Pensión:", valorPension);
+    console.log("Fondo:", fondoSolidaridad);
+    console.log("Retención:", retencion);
+    console.log("ARL:", arl);
 });
