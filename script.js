@@ -1,4 +1,4 @@
-//datos//
+// DATOS
 let nombreCompleto = "";
 let edad = 0;
 let tipodeDocumento = "";
@@ -8,10 +8,10 @@ let comisiones = 0;
 let totalhorasExtra = 0;
 let niveldeRiesgo = 0;
 
-//formulario//
+// FORMULARIO
 const formsdatosGenerales = document.getElementById("datosGenerales");
 
-//constantes//
+// CONSTANTES
 const salariominimolegalVigente = 1750905;
 const subsidiodeTrasporte = 249095;
 const uvT = 52.37;
@@ -20,29 +20,29 @@ const psalud = 0.04;
 const pension = 0.04;
 const fondoSolidaridadPorcentaje = 0.01;
 
-//riesgos//
+// RIESGOS
 const riego1 = 0.522;
 const riego2 = 1.044;
 const riego3 = 2.436;
 const riego4 = 4.350;
 const riego5 = 6.960;
 
-//evento//
+// EVENTO
 formsdatosGenerales.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    //captura//
+    // CAPTURA
     nombreCompleto = document.getElementById("nombre").value;
     edad = parseInt(document.getElementById("edad").value);
     tipodeDocumento = document.getElementById("tipoDocumento").value;
     numerodeDocumento = document.getElementById("numeroDocumento").value;
 
-    let salarioBasico = parseFloat(document.getElementById("salario").value);
+    let salarioBasico = parseFloat(document.getElementById("salario").value) || 0;
     comisiones = parseFloat(document.getElementById("comisiones").value) || 0;
     totalhorasExtra = parseFloat(document.getElementById("horasExtra").value) || 0;
     niveldeRiesgo = parseInt(document.getElementById("riesgo").value);
 
-    //validacion doc//
+    // VALIDACIONES
     if (edad < 7 && tipodeDocumento !== "RC") {
         alert("Debe tener RC");
         return;
@@ -58,7 +58,6 @@ formsdatosGenerales.addEventListener("submit", function (e) {
         return;
     }
 
-    //validacion edad//
     if (edad < 18) {
         alert("Menor de edad");
         return;
@@ -74,26 +73,23 @@ formsdatosGenerales.addEventListener("submit", function (e) {
         return;
     }
 
-    //calculos//
+    // CÁLCULOS
     let calculoIbc = (salarioBasico + comisiones + totalhorasExtra) * 0.7;
 
-    //auxilio//
     let auxilioTransporte = 0;
     if (salarioBasico <= (salariominimolegalVigente * 2)) {
         auxilioTransporte = subsidiodeTrasporte;
     }
 
-    //salud pension//
     let valorSalud = calculoIbc * psalud;
     let valorPension = calculoIbc * pension;
 
-    //fondo//
     let fondoSolidaridad = 0;
     if (calculoIbc >= (salariominimolegalVigente * 4)) {
         fondoSolidaridad = calculoIbc * fondoSolidaridadPorcentaje;
     }
 
-    //retencion//
+    // RETENCIÓN
     let ingresosNoConstitutivos = valorSalud + valorPension;
     let ingresoGravado = calculoIbc - ingresosNoConstitutivos;
     let ingresoUVT = ingresoGravado / uvT;
@@ -110,7 +106,7 @@ formsdatosGenerales.addEventListener("submit", function (e) {
 
     let retencion = calcularRetencionUVT(ingresoUVT);
 
-    //arl//
+    // ARL
     let porcentajeRiesgo = 0;
 
     switch (niveldeRiesgo) {
@@ -126,9 +122,19 @@ formsdatosGenerales.addEventListener("submit", function (e) {
 
     let arl = calculoIbc * (porcentajeRiesgo / 100);
 
-    //resultados//
+    // TOTALES
+    let ingresos = salarioBasico + auxilioTransporte + comisiones + totalhorasExtra;
+
+    let deducciones = valorSalud + valorPension + fondoSolidaridad + arl + retencion;
+
+    let totalFinal = ingresos - deducciones;
+
+    // RESULTADOS
     console.log("Nombre:", nombreCompleto);
     console.log("IBC:", calculoIbc);
+    console.log("Ingresos:", ingresos);
+    console.log("Deducciones:", deducciones);
+    console.log("Total Final:", totalFinal);
     console.log("Auxilio:", auxilioTransporte);
     console.log("Salud:", valorSalud);
     console.log("Pensión:", valorPension);
