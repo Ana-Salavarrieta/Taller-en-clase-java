@@ -1,4 +1,4 @@
-// DATOS
+// datos
 let nombreCompleto = "";
 let edad = 0;
 let tipodeDocumento = "";
@@ -8,10 +8,10 @@ let comisiones = 0;
 let totalhorasExtra = 0;
 let niveldeRiesgo = 0;
 
-// FORMULARIO
+// formulario
 const formsdatosGenerales = document.getElementById("datosGenerales");
 
-// CONSTANTES
+// constantes
 const salariominimolegalVigente = 1750905;
 const subsidiodeTrasporte = 249095;
 const uvT = 52.37;
@@ -20,18 +20,18 @@ const psalud = 0.04;
 const pension = 0.04;
 const fondoSolidaridadPorcentaje = 0.01;
 
-// RIESGOS
+// riesgos
 const riego1 = 0.522;
 const riego2 = 1.044;
 const riego3 = 2.436;
 const riego4 = 4.350;
 const riego5 = 6.960;
 
-// EVENTO
+// evento
 formsdatosGenerales.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    // CAPTURA
+    // captura
     nombreCompleto = document.getElementById("nombre").value;
     edad = parseInt(document.getElementById("edad").value);
     tipodeDocumento = document.getElementById("tipoDocumento").value;
@@ -42,7 +42,7 @@ formsdatosGenerales.addEventListener("submit", function (e) {
     totalhorasExtra = parseFloat(document.getElementById("horasExtra").value) || 0;
     niveldeRiesgo = parseInt(document.getElementById("riesgo").value);
 
-    // VALIDACIONES
+    // validaciones
     if (edad < 7 && tipodeDocumento !== "RC") {
         alert("Debe tener RC");
         return;
@@ -73,7 +73,7 @@ formsdatosGenerales.addEventListener("submit", function (e) {
         return;
     }
 
-    // CÁLCULOS
+    // calculos
     let calculoIbc = (salarioBasico + comisiones + totalhorasExtra) * 0.7;
 
     let auxilioTransporte = 0;
@@ -89,7 +89,7 @@ formsdatosGenerales.addEventListener("submit", function (e) {
         fondoSolidaridad = calculoIbc * fondoSolidaridadPorcentaje;
     }
 
-    // RETENCIÓN
+    // retencion
     let ingresosNoConstitutivos = valorSalud + valorPension;
     let ingresoGravado = calculoIbc - ingresosNoConstitutivos;
     let ingresoUVT = ingresoGravado / uvT;
@@ -106,7 +106,7 @@ formsdatosGenerales.addEventListener("submit", function (e) {
 
     let retencion = calcularRetencionUVT(ingresoUVT);
 
-    // ARL
+    // arl
     let porcentajeRiesgo = 0;
 
     switch (niveldeRiesgo) {
@@ -122,23 +122,28 @@ formsdatosGenerales.addEventListener("submit", function (e) {
 
     let arl = calculoIbc * (porcentajeRiesgo / 100);
 
-    // TOTALES
+    // totales
     let ingresos = salarioBasico + auxilioTransporte + comisiones + totalhorasExtra;
 
     let deducciones = valorSalud + valorPension + fondoSolidaridad + arl + retencion;
 
     let totalFinal = ingresos - deducciones;
 
-    // RESULTADOS
-    console.log("Nombre:", nombreCompleto);
-    console.log("IBC:", calculoIbc);
-    console.log("Ingresos:", ingresos);
-    console.log("Deducciones:", deducciones);
-    console.log("Total Final:", totalFinal);
-    console.log("Auxilio:", auxilioTransporte);
-    console.log("Salud:", valorSalud);
-    console.log("Pensión:", valorPension);
-    console.log("Fondo:", fondoSolidaridad);
-    console.log("Retención:", retencion);
-    console.log("ARL:", arl);
+    // mostrar en pantalla
+    const contenedor = document.getElementById("contenidoResultados");
+
+    contenedor.innerHTML = `
+        <p><strong>Nombre:</strong> ${nombreCompleto}</p>
+        <p><strong>IBC:</strong> $${calculoIbc.toFixed(2)}</p>
+        <p><strong>Ingresos:</strong> $${ingresos.toFixed(2)}</p>
+        <p><strong>Deducciones:</strong> $${deducciones.toFixed(2)}</p>
+        <p><strong>Total a pagar:</strong> $${totalFinal.toFixed(2)}</p>
+        <hr>
+        <p><strong>Auxilio:</strong> $${auxilioTransporte.toFixed(2)}</p>
+        <p><strong>Salud:</strong> $${valorSalud.toFixed(2)}</p>
+        <p><strong>Pensión:</strong> $${valorPension.toFixed(2)}</p>
+        <p><strong>Fondo:</strong> $${fondoSolidaridad.toFixed(2)}</p>
+        <p><strong>Retención:</strong> $${retencion.toFixed(2)}</p>
+        <p><strong>ARL:</strong> $${arl.toFixed(2)}</p>
+    `;
 });
