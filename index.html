@@ -7,6 +7,48 @@
   </head>
 
   <body>
+    <div class="container">
+      <h1>Simulador de Nómina Laboral</h1> 
+      <h2>Ingrese sus datos</h2>
+
+ <form id="datosGenerales"></form>   
+
+ <!-- Datos personales -->
+   <input type="text" id="nombre" placeholder="Nombre completo" required> 
+   <input type="number" id="edad" placeholder="Edad" required>    
+   <select id="tipoDocumento" required> 
+   <option value="">Tipo de documento</option>
+   <option value="CC">Cédula de ciudadanía</option> 
+   <option value="TI">Tarjeta de identidad</option>
+    <option value="CE">Cédula de extranjería</option> 
+    <option value="PP">Pasaporte</option>
+   <option value="RC">Registro civil</option>
+   </select>
+  <input type="text" id="numeroDocumento" placeholder="Número de documento" required> 
+   
+
+ <!-- Datos salariales --> 
+ <input type="number" id="salario" placeholder="Salario básico" required>
+ <input type="number" id="comisiones" placeholder="Comisiones (opcional)"> 
+ <input type="number" id="horasExtra" placeholder="Horas extra (opcional)">
+
+ <select id="riesgo" required>
+   <option value="">Nivel de riesgo (ARL)</option>
+    <option value="1">Nivel 1</option>
+     <option value="2">Nivel 2</option> 
+    <option value="3">Nivel 3</option>
+   <option value="4">Nivel 4</option> 
+   <option value="5">Nivel 5</option>
+   </select>
+ <button type="submit">Calcular Nómina</button>
+ </form>
+ <!-- Resultados -->
+  <div id="resultados">
+   <h3>Resultados</h3>
+    <p>Aquí aparecerán los resultados...</p> 
+  </div>
+</div>
+
 <script src="script.js"></script>
   </body>
 </html>

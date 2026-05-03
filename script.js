@@ -2,16 +2,16 @@
 //punto1//
 
 let nombreCompleto = "";
-let edad = "";
+let edad = 0;
 let tipodeDocumento = "";
-let nùmerodeDocumento = ""; 
+let numerodeDocumento = "";
 
 //punto3//
 
-let salario = "";
-let comisiones = "";
-let totalhorasExtra = "";
-let niveldeRiesgo= "";
+let salario = 0;
+let comisiones = 0;
+let totalhorasExtra = 0;
+let niveldeRiesgo= 0;
 
 
 //formulario//
@@ -84,9 +84,6 @@ formsdatosGenerales.addEventListener("submit", function (e) {
         return;
     }
 
-    if (edad >= 25 && edad < 60 ){
-        //se calculan obligaciones//
-    }
     // calculer retencion de fuente //
 
     function calcularRetencionUVT(ingresoUVT) {
@@ -113,56 +110,67 @@ formsdatosGenerales.addEventListener("submit", function (e) {
 
 //punto4//
 
-    let calculoIbc = (salarioBasico + comisiones + totalhorasExtra) * 0.7;
+let calculoIbc = (salarioBasico + comisiones + totalhorasExtra) * 0.7;
 
-    let auxilioTransporte = 0;
-    if (salarioBasico <= (salariominimolegalVigente * 2)) {
-        auxilioTransporte = subsidiodeTrasporte;
-    }
+let auxilioTransporte = 0;
+if (salarioBasico <= (salariominimolegalVigente * 2)) {
+    auxilioTransporte = subsidiodeTrasporte;
+}
 
-    let valorPension = calculoIbc * pension;
-    let valorSalud = calculoIbc * psalud;
+let valorPension = calculoIbc * pension;
+let valorSalud = calculoIbc * psalud;
 
-    let fondoSolidaridad = 0;
-     if (calculoIbc >= (salariominimolegalVigente * 4)) {
-        valorPension += fondoSolidaridad;
-    }
-    let ingresosNoConstitutivos = valorSalud + valorPension;
-    let ingresoGravado = calculoIbc - ingresosNoConstitutivos;
-    let ingresoUVT = ingresoGravado / uvT;
+//fondo //
+let fondoSolidaridad = 0;
+if (calculoIbc >= (salariominimolegalVigente * 4)) {
+    fondoSolidaridad = calculoIbc * fondodesolidaridadPensonal;
+}
 
-    let retencionUVT = 0;
+//retencion //
+let ingresosNoConstitutivos = valorSalud + valorPension;
+let ingresoGravado = calculoIbc - ingresosNoConstitutivos;
+let ingresoUVT = ingresoGravado / uvT;
 
-    //ARL//
+let retencionUVT = calcularRetencionUVT(ingresoUVT);
 
-    let porcentajeRiesgo = 0;
+//ARL//
+let porcentajeRiesgo = 0;
 
-    switch (niveldeRiesgo) {
-        case 1: porcentajeRiesgo = riego1; break;
-        case 2: porcentajeRiesgo = riego2; break;
-        case 3: porcentajeRiesgo = riego3; break;
-        case 4: porcentajeRiesgo = riego4; break;
-        case 5: porcentajeRiesgo = riego5; break;
-         default:
-            alert("Nivel de riesgo inválido");
-            return;
-    }
+switch (niveldeRiesgo) {
+    case 1: porcentajeRiesgo = riego1; break;
+    case 2: porcentajeRiesgo = riego2; break;
+    case 3: porcentajeRiesgo = riego3; break;
+    case 4: porcentajeRiesgo = riego4; break;
+    case 5: porcentajeRiesgo = riego5; break;
+    default:
+        alert("Nivel de riesgo inválido");
+        return;
+}
 
-    let arl = calculoIbc * (porcentajeRiesgo / 100);
+let arl = calculoIbc * (porcentajeRiesgo / 100);
 
-     //RESULTADOS//
+//total//
 
-    console.log({
-        nombreCompleto,
-        edad,
-        tipodeDocumento,
-        numerodeDocumento,
-        calculoIbc,
-        auxilioTransporte,
-        valorSalud,
-        valorPension,
-        fondoSolidaridad,
-        arl
-    });
+let ingresos = salarioBasico + auxilioTransporte + comisiones + totalhorasExtra;
 
+let deducciones = 0;
+
+if (salarioBasico > (salariominimolegalVigente * 2)) {
+    deducciones = valorSalud + valorPension + fondoSolidaridad + arl + retencionUVT;
+}
+
+let totalFinal = ingresos - deducciones;
+
+//Resultados//
+console.log("Nombre:", nombreCompleto);
+console.log("IBC:", calculoIbc);
+console.log("Ingresos:", ingresos);
+console.log("Deducciones:", deducciones);
+console.log("Total Final:", totalFinal);
+console.log("Auxilio:", auxilioTransporte);
+console.log("Salud:", valorSalud);
+console.log("Pensión:", valorPension);
+console.log("Fondo:", fondoSolidaridad);
+console.log("Retención:", retencionUVT);
+console.log("ARL:", arl);
 });
