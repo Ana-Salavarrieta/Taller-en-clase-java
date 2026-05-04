@@ -2,16 +2,19 @@ body {
     font-family: Arial, sans-serif;
      background-color: #f4f6f9; 
      margin: 0; 
-     padding: 20px; 
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     height: 100vh;
     }
 
  .container { 
      max-width: 500px; 
-     margin: auto;
+     width: 100%;
      background: #ffffff;
-      padding: 20px;
-       border-radius: 10px; 
-       box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+     padding: 20px;
+     border-radius: 10px; 
+     box-shadow: 0 4px 10px rgba(0,0,0,0.9); 
     } 
 
  h1 {
@@ -27,6 +30,11 @@ body {
      font-size: 18px;
  } 
          
+ form { 
+    display: flex;
+    flex-direction: column;
+    } 
+    
 input, select, button { 
      width: 100%; 
      padding: 10px; 
